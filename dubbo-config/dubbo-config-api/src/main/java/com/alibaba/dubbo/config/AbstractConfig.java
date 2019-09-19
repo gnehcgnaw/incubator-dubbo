@@ -37,7 +37,7 @@ import java.util.regex.Pattern;
 
 /**
  * Utility methods and public methods for parsing configuration
- *
+ *  用于解析配置的实用方法和公共方法
  * @export
  */
 public abstract class AbstractConfig implements Serializable {
@@ -73,6 +73,7 @@ public abstract class AbstractConfig implements Serializable {
         legacyProperties.put("dubbo.service.url", "dubbo.service.address");
 
         // this is only for compatibility
+        // 这只是为了兼容性
         Runtime.getRuntime().addShutdownHook(DubboShutdownHook.getDubboShutdownHook());
     }
 
@@ -94,12 +95,23 @@ public abstract class AbstractConfig implements Serializable {
             return;
         }
         String prefix = "dubbo." + getTagName(config.getClass()) + ".";
+        //获取当前类的方法列表
         Method[] methods = config.getClass().getMethods();
         for (Method method : methods) {
             try {
                 String name = method.getName();
+                /**
+                 * 1、方法名称长度大于3个字符；setXXX()
+                 * 2、方法名称set开头；
+                 * 3、public 方法；
+                 * 4、参数列表数量为1 ；
+                 * 5、参数类型为基本类型
+                 */
                 if (name.length() > 3 && name.startsWith("set") && Modifier.isPublic(method.getModifiers())
                         && method.getParameterTypes().length == 1 && isPrimitive(method.getParameterTypes()[0])) {
+                    /**
+                     * 获取名称:例如：name = setDefault 则 property = default
+                     */
                     String property = StringUtils.camelToSplitName(name.substring(3, 4).toLowerCase() + name.substring(4), ".");
 
                     String value = null;
@@ -120,6 +132,7 @@ public abstract class AbstractConfig implements Serializable {
                     if (value == null || value.length() == 0) {
                         Method getter;
                         try {
+                            //获取set方法的getXx()方法或者isXx()
                             getter = config.getClass().getMethod("get" + name.substring(3));
                         } catch (NoSuchMethodException e) {
                             try {
@@ -128,6 +141,7 @@ public abstract class AbstractConfig implements Serializable {
                                 getter = null;
                             }
                         }
+
                         if (getter != null) {
                             if (getter.invoke(config) == null) {
                                 if (config.getId() != null && config.getId().length() > 0) {
@@ -350,6 +364,11 @@ public abstract class AbstractConfig implements Serializable {
         checkProperty(property, value, MAX_PATH_LENGTH, null);
     }
 
+    /**
+     * 检查名称
+     * @param property
+     * @param value
+     */
     protected static void checkName(String property, String value) {
         checkProperty(property, value, MAX_LENGTH, PATTERN_NAME);
     }

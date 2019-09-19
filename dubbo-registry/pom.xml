@@ -29,11 +29,17 @@
         <skip_maven_deploy>false</skip_maven_deploy>
     </properties>
     <modules>
+        <!--包含了注册中心的所有api和抽象实现类-->
         <module>dubbo-registry-api</module>
+        <!--dubbo基于内存的默认实现-->
         <module>dubbo-registry-default</module>
+        <!--multicast模式的服务注册与发现-->
         <module>dubbo-registry-multicast</module>
+        <!--使用zookeeper作为注册中心的实现-->
         <module>dubbo-registry-zookeeper</module>
+        <!--使用redis作为注册中心的实现-->
         <module>dubbo-registry-redis</module>
+        <!--使用nacos作为注册中心的实现-->
         <module>dubbo-registry-nacos</module>
     </modules>
 </project>

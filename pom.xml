@@ -132,6 +132,7 @@
         <module>dubbo-rpc</module>
         <module>dubbo-filter</module>
         <module>dubbo-cluster</module>
+        <!--dubbo注册中心-->
         <module>dubbo-registry</module>
         <module>dubbo-monitor</module>
         <module>dubbo-config</module>

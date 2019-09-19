@@ -29,7 +29,7 @@ import java.util.Arrays;
 
 /**
  * ProviderConfig
- *
+ *  提供者配置
  * @export
  * @see com.alibaba.dubbo.config.ProtocolConfig
  * @see com.alibaba.dubbo.config.ServiceConfig

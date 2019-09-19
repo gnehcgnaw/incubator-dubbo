@@ -28,7 +28,7 @@ import java.util.Map;
 
 /**
  * ApplicationConfig
- *
+ * 应用配置
  * @export
  */
 public class ApplicationConfig extends AbstractConfig {
@@ -86,7 +86,12 @@ public class ApplicationConfig extends AbstractConfig {
     public ApplicationConfig() {
     }
 
+    /**
+     * 初始化应用配置并赋予应用名称
+     * @param name
+     */
     public ApplicationConfig(String name) {
+        //设置应用名
         setName(name);
     }
 
@@ -96,8 +101,10 @@ public class ApplicationConfig extends AbstractConfig {
     }
 
     public void setName(String name) {
+        //检查应用名称是否合法，不合法直接抛出异常
         checkName("name", name);
         this.name = name;
+        //如果id为null，那么id = name
         if (id == null || id.length() == 0) {
             id = name;
         }
